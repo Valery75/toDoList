@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To-Do List</title>
+    <style>
+        input[type=checkbox] + span {
+
+            font-style: italic;
+        }
+        input[type=checkbox]:checked + span {
+            text-decoration: line-through;
+            color: #f00;
+            font-style: normal;
+        }
+    </style>
+</head>
+<body>
+<head>
+    <h1>To-Do List</h1>
+</head>
+ //// Прошло проверку!!!
+<input id="input-task">
+<button id="add-task-button">Добавьте задачу, нажав на эту кнопку.</button>
+<ul id="task-list">Храните задачи в этом элементе.
+    <!--
+    <li>
+        <input type="checkbox"> Отметьте задачу как выполненную, нажав на нее.
+        <span class="task">Email Alex</span>
+        <button class="delete-btn">эта кнопка не должна ничего делать.</button>
+    </li>
+    <li>
+        <input type="checkbox"> Отметьте задачу как выполненную, нажав на нее.
+        <span class="task">Create ideal user persona guide</span>
+        <button class="delete-btn">эта кнопка не должна ничего делать.</button>
+    </li>
+    <li>
+        <input type="checkbox"> Отметьте задачу как выполненную, нажав на нее.
+        <span class="task">Set up A/B test</span>
+        <button class="delete-btn">эта кнопка не должна ничего делать.</button>
+    </li>
+    -->
+</ul>
+<script>
+    const inputText = document.querySelector('#input-task');
+    const inputButton = document.querySelector('#add-task-button');
+    //const list = document.querySelector('#task-list');
+    var list  = document.querySelector('#task-list');
+    var todos;
+    function toLocal () {
+        todos = list.innerHTML;
+        localStorage.setItem('todos', todos);
+    }
+    inputButton.addEventListener('click', (e)=>{
+        if(inputText.value !="") {
+            e.preventDefault();
+
+            const myLi = document.createElement('li');
+            // myLi.innerHTML = ;
+            list.appendChild(myLi);
+
+            const myCheckbox = document.createElement('input');
+            myCheckbox.type = "checkbox";
+            myLi.appendChild(myCheckbox);
+
+            const mySpan = document.createElement('span');
+            mySpan.innerHTML = inputText.value;
+            mySpan.classList.add('task');
+            myLi.appendChild(mySpan);
+
+            const myBtn = document.createElement('button');
+            myBtn.innerHTML = "эта кнопка не должна ничего делать."
+            myBtn.classList.add('delete-btn');
+            myLi.appendChild(myBtn);
+            toLocal();
+        }
+        const close = document.querySelectorAll('.delete-btn');
+
+        for(let i=0; i<close.length; i++) {
+            close[i].addEventListener('click', ()=>{
+                const e = document.querySelector("li:last-child");
+                e.parentElement.removeChild(e);
+            })
+        }
+        inputText.value = "";
+        toLocal();
+    })
+
+    if (localStorage.getItem('todos')) {                           // проверяем наличие ключа, не пустое ли оно
+        list.innerHTML = localStorage.getItem('todos');             // если не пустое, записываем это значение в наш список дел
+    }
+
+</script>
+</body>
+</html>
+
